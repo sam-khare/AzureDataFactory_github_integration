@@ -74,7 +74,7 @@
 				"          depart_id as string,",
 				"          department_name as string",
 				"     ),",
-				"     partitionFileNames:['mergedEmpDept'],",
+				"     partitionFileNames:['mergedEmpDept.csv'],",
 				"     partitionBy('hash', 1)) ~> sink"
 			]
 		}
