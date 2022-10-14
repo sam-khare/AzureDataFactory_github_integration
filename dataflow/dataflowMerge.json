@@ -14,7 +14,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "department_dataset",
+						"referenceName": "departmentDataset",
 						"type": "DatasetReference"
 					},
 					"name": "departmentInput",
@@ -49,7 +49,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> employeeInput",
 				"source(output(",
-				"          depart_id as integer,",
+				"          depart_id as string,",
 				"          department_name as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
