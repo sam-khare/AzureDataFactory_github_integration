@@ -1,0 +1,82 @@
+{
+	"name": "dataflowMerge",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "employee_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "employeeInput",
+					"description": "Pointing to Employee csv"
+				},
+				{
+					"dataset": {
+						"referenceName": "department_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "departmentInput",
+					"description": "Pointing to department csv in BLOB storage"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "merged_dataset",
+						"type": "DatasetReference"
+					},
+					"name": "sink"
+				}
+			],
+			"transformations": [
+				{
+					"name": "mergeEmpDept"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          dept_id as integer,",
+				"          name as string,",
+				"          country as string,",
+				"          salary as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> employeeInput",
+				"source(output(",
+				"          depart_id as integer,",
+				"          department_name as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> departmentInput",
+				"employeeInput, departmentInput join(dept_id == depart_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> mergeEmpDept",
+				"mergeEmpDept select(mapColumn(",
+				"          Name = name,",
+				"          Country = country,",
+				"          Salary = salary,",
+				"          {Department Name} = department_name",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          depart_id as string,",
+				"          department_name as string",
+				"     ),",
+				"     partitionFileNames:['mergedEmpDept.csv'],",
+				"     partitionBy('hash', 1)) ~> sink"
+			]
+		}
+	}
+}
