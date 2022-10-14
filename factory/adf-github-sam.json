@@ -1,0 +1,9 @@
+{
+	"name": "adf-github-sam",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "875705e6-2d1d-40b1-9988-8815575f595d",
+		"tenantId": "569df091-b013-40e3-86ee-bd9cb9e25814"
+	}
+}
