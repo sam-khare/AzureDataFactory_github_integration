@@ -1,2 +1,2 @@
 # AzureDataFactory_github_integration
-Employee.csv and Departement.csv,uploded in Azure Blob storage, was merged and stored in another blob file . An Azure Data Factory pipeline was deployed consist of single dataflow containing few transformations. 
+The Employee.csv and Department.csv files, uploaded to Azure Blob Storage, were merged and saved as a new blob file. An Azure Data Factory pipeline was deployed, consisting of a single data flow with multiple transformations.
